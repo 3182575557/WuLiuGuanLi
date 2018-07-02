@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wlgl.modules.order.dao.TbOrderDao" >
+  <resultMap id="BaseResultMap" type="com.wlgl.modules.order.entity.TbOrder" >
+    <id column="orderid" property="orderid" jdbcType="BIGINT" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+    <result column="receiving_address" property="receivingAddress" jdbcType="VARCHAR" />
+    <result column="order_phone" property="orderPhone" jdbcType="VARCHAR" />
+    <result column="order_user" property="orderUser" jdbcType="VARCHAR" />
+    <result column="goods" property="goods" jdbcType="VARCHAR" />
+    <result column="goods_cost" property="goodsCost" jdbcType="DECIMAL" />
+    <result column="goods_logistics" property="goodsLogistics" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="INTEGER" />
+    <result column="completion_time" property="completionTime" jdbcType="TIMESTAMP" />
+    <result column="express" property="express" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      orderid, createtime, consignee, receiving_address, order_phone, order_user, goods, 
+      goods_cost, goods_logistics, order_type, completion_time, express, goods_id, customer_id
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wlgl.modules.order.entity.TbOrderQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    orderid,createtime,consignee,receiving_address,order_phone,order_user,goods,goods_cost,goods_logistics,order_type,completion_time,express,goods_id,customer_id
+    from tb_order
+    where orderid = #{orderid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_order
+    where orderid = #{orderid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wlgl.modules.order.entity.TbOrderQuery" >
+    delete from tb_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wlgl.modules.order.entity.TbOrder" >
+    insert into tb_order (orderid, createtime, consignee, 
+      receiving_address, order_phone, order_user, 
+      goods, goods_cost, goods_logistics, 
+      order_type, completion_time, express, 
+      goods_id, customer_id)
+    values (#{orderid,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, #{consignee,jdbcType=VARCHAR}, 
+      #{receivingAddress,jdbcType=VARCHAR}, #{orderPhone,jdbcType=VARCHAR}, #{orderUser,jdbcType=VARCHAR}, 
+      #{goods,jdbcType=VARCHAR}, #{goodsCost,jdbcType=DECIMAL}, #{goodsLogistics,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=INTEGER}, #{completionTime,jdbcType=TIMESTAMP}, #{express,jdbcType=VARCHAR}, 
+      #{goodsId,jdbcType=BIGINT}, #{customerId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wlgl.modules.order.entity.TbOrder" >
+    insert into tb_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        orderid,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="consignee != null" >
+        consignee,
+      </if>
+      <if test="receivingAddress != null" >
+        receiving_address,
+      </if>
+      <if test="orderPhone != null" >
+        order_phone,
+      </if>
+      <if test="orderUser != null" >
+        order_user,
+      </if>
+      <if test="goods != null" >
+        goods,
+      </if>
+      <if test="goodsCost != null" >
+        goods_cost,
+      </if>
+      <if test="goodsLogistics != null" >
+        goods_logistics,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="completionTime != null" >
+        completion_time,
+      </if>
+      <if test="express != null" >
+        express,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        #{orderid,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consignee != null" >
+        #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingAddress != null" >
+        #{receivingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPhone != null" >
+        #{orderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUser != null" >
+        #{orderUser,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null" >
+        #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null" >
+        #{goodsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsLogistics != null" >
+        #{goodsLogistics,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="completionTime != null" >
+        #{completionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="express != null" >
+        #{express,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wlgl.modules.order.entity.TbOrderQuery" resultType="java.lang.Integer" >
+    select count(*) from tb_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_order
+    <set >
+      <if test="record.orderid != null" >
+        orderid = #{record.orderid,jdbcType=BIGINT},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.consignee != null" >
+        consignee = #{record.consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receivingAddress != null" >
+        receiving_address = #{record.receivingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderPhone != null" >
+        order_phone = #{record.orderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderUser != null" >
+        order_user = #{record.orderUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goods != null" >
+        goods = #{record.goods,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsCost != null" >
+        goods_cost = #{record.goodsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goodsLogistics != null" >
+        goods_logistics = #{record.goodsLogistics,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null" >
+        order_type = #{record.orderType,jdbcType=INTEGER},
+      </if>
+      <if test="record.completionTime != null" >
+        completion_time = #{record.completionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.express != null" >
+        express = #{record.express,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsId != null" >
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="record.customerId != null" >
+        customer_id = #{record.customerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_order
+    set orderid = #{record.orderid,jdbcType=BIGINT},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      consignee = #{record.consignee,jdbcType=VARCHAR},
+      receiving_address = #{record.receivingAddress,jdbcType=VARCHAR},
+      order_phone = #{record.orderPhone,jdbcType=VARCHAR},
+      order_user = #{record.orderUser,jdbcType=VARCHAR},
+      goods = #{record.goods,jdbcType=VARCHAR},
+      goods_cost = #{record.goodsCost,jdbcType=DECIMAL},
+      goods_logistics = #{record.goodsLogistics,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=INTEGER},
+      completion_time = #{record.completionTime,jdbcType=TIMESTAMP},
+      express = #{record.express,jdbcType=VARCHAR},
+      goods_id = #{record.goodsId,jdbcType=BIGINT},
+      customer_id = #{record.customerId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wlgl.modules.order.entity.TbOrder" >
+    update tb_order
+    <set >
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consignee != null" >
+        consignee = #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingAddress != null" >
+        receiving_address = #{receivingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPhone != null" >
+        order_phone = #{orderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUser != null" >
+        order_user = #{orderUser,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null" >
+        goods = #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null" >
+        goods_cost = #{goodsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsLogistics != null" >
+        goods_logistics = #{goodsLogistics,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="completionTime != null" >
+        completion_time = #{completionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="express != null" >
+        express = #{express,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where orderid = #{orderid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wlgl.modules.order.entity.TbOrder" >
+    update tb_order
+    set createtime = #{createtime,jdbcType=TIMESTAMP},
+      consignee = #{consignee,jdbcType=VARCHAR},
+      receiving_address = #{receivingAddress,jdbcType=VARCHAR},
+      order_phone = #{orderPhone,jdbcType=VARCHAR},
+      order_user = #{orderUser,jdbcType=VARCHAR},
+      goods = #{goods,jdbcType=VARCHAR},
+      goods_cost = #{goodsCost,jdbcType=DECIMAL},
+      goods_logistics = #{goodsLogistics,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      completion_time = #{completionTime,jdbcType=TIMESTAMP},
+      express = #{express,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      customer_id = #{customerId,jdbcType=INTEGER}
+    where orderid = #{orderid,jdbcType=BIGINT}
+  </update>
+</mapper>
